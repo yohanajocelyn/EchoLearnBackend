@@ -12,3 +12,72 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+//Database
+model User{
+  id Int @id @default(autoincrement())
+  username String @unique @db.VarChar(100)
+  email String @unique @db.VarChar(100)
+  password String @db.VarChar(100)
+  token String? @db.VarChar(100)
+  totalScore Int @default(0)
+  profilePicture String? @db.VarChar(100)
+
+  notes Note[]
+  attempts Attempt[]
+
+  @@map("users")
+}
+
+model Note {
+  id Int @id @default(autoincrement())
+  word String @db.VarChar(100)
+  meaning String
+  userId Int
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("notes")
+}
+
+model Song {
+  id Int @id @default(autoincrement())
+  title String @db.VarChar(100)
+  artist String @db.VarChar(100)
+  genre String @db.VarChar(100)
+  image String @db.VarChar(100)
+  lyrics String
+
+  variants Variant[]
+
+  @@map("songs")
+}
+
+model Variant {
+  id Int @id @default(autoincrement())
+  emptyLyric String
+  answer String
+  songId Int
+
+  attempts Attempt[]
+  
+  song Song @relation(fields: [songId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("variants")
+}
+
+model Attempt {
+  id Int @id @default(autoincrement())
+  userId Int
+  variantId Int
+  correctAnswer String
+  attemptedAnswer String
+  score Int
+  attemptedAt DateTime
+  isComplete Boolean
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  variant Variant @relation(fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("attempts")
+}
