@@ -3,6 +3,13 @@ import { LoginUserRequest, RegisterUserRequest, UserResponse } from "../models/u
 import { UserService } from "../services/user-service";
 import { UserRequest } from "../types/user-request";
 
+//Cara login:
+//1. Register (JANGAN LUPA PASSWORDNYA)
+//2. Login
+//3. Ambil token yang dikasih di response
+//4. Tambahkan X-API-TOKEN pada header request
+//5. Copas token yang tadi dikasih ke X-API-TOKEN
+
 export class UserController {
     static async register(req: Request, res: Response, next: NextFunction) {
         try {
