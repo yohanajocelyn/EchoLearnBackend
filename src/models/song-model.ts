@@ -7,6 +7,7 @@ export interface CreateSongRequest {
     genre: string;
     image: string;
     lyrics: string;
+    fileName: string;
 }
 
 export interface SongResponse {
@@ -16,6 +17,7 @@ export interface SongResponse {
     genre: string;
     image: string;
     lyrics: string;
+    fileName: string;
     variants: VariantResponse[];
 }
 
@@ -27,6 +29,7 @@ export function toSongResponse(song: (Song & {variants?: Variant[]})): SongRespo
         genre: song.genre,
         image: song.image,
         lyrics: song.lyrics,
+        fileName: song.fileName,
         variants: song.variants ? song.variants.map((variant) => ({
             id: variant.id,
             emptyLyric: variant.emptyLyric,
