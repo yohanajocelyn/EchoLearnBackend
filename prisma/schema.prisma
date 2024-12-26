@@ -47,6 +47,7 @@ model Song {
   genre String @db.VarChar(100)
   image String @db.VarChar(100)
   lyrics String
+  fileName String
 
   variants Variant[]
 
