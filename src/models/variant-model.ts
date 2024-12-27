@@ -15,6 +15,12 @@ export interface VariantResponse {
     type: string;
 }
 
+export interface SpeakingRequest {
+    id: number;
+    answer: string;
+    songId?: number;
+}
+
 export function toVariantResponse(variant: Variant): VariantResponse {
     return {
         id: variant.id,

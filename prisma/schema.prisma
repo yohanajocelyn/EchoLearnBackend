@@ -62,7 +62,6 @@ model Variant {
   type String
 
   attempts Attempt[]
-  
   song Song @relation(fields: [songId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("variants")
