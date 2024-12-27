@@ -4,6 +4,7 @@ export interface CreateVariantRequest {
     emptyLyric: string;
     answer: string;
     songId: number;
+    type: string;
 }
 
 export interface VariantResponse {
@@ -11,6 +12,7 @@ export interface VariantResponse {
     emptyLyric: string;
     answer: string;
     songId?: number;
+    type: string;
 }
 
 export interface SpeakingRequest {
@@ -25,5 +27,6 @@ export function toVariantResponse(variant: Variant): VariantResponse {
         emptyLyric: variant.emptyLyric,
         answer: variant.answer,
         songId: variant.songId,
+        type: variant.type
     }
 }

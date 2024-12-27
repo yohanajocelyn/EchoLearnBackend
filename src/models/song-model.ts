@@ -33,7 +33,8 @@ export function toSongResponse(song: (Song & {variants?: Variant[]})): SongRespo
         variants: song.variants ? song.variants.map((variant) => ({
             id: variant.id,
             emptyLyric: variant.emptyLyric,
-            answer: variant.answer
+            answer: variant.answer,
+            type: variant.type
         })): []
     }
 }
