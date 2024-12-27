@@ -15,5 +15,5 @@ publicRouter.delete('/songs/:songId', SongController.deleteSong)
 publicRouter.post('/variants', VariantController.createVariant)
 
 //User routes
-publicRouter.post('/api/users/register', UserController.register)
-publicRouter.post('/api/users/login', UserController.login)
+publicRouter.post('/api/user/register', UserController.register)
+publicRouter.post('/api/user/login', UserController.login)
