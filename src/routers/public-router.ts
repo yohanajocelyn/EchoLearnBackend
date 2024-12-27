@@ -19,3 +19,15 @@ publicRouter.post('/api/user/register', UserController.register)
 publicRouter.post('/api/user/login', UserController.login)
 publicRouter.get('/api/user', UserController.getAllUsers)
 publicRouter.get('/api/user/:userId', UserController.getUserById)
+
+//Image routes
+publicRouter.get('/api/default-profile-pictures', (req, res) => {
+    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const profilePictures = [
+        `${baseUrl}/public/images/profilePicture1.jpg`,
+        `${baseUrl}/public/images/profilePicture2.jpg`,
+        `${baseUrl}/public/images/profilePicture3.jpg`,
+        `${baseUrl}/public/images/profilePicture4.jpg`,
+    ];
+    res.json(profilePictures);
+});
