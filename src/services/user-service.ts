@@ -2,8 +2,10 @@ import { User } from "@prisma/client";
 import { prismaClient } from "../application/database";
 import { ResponseError } from "../errors/response-error";
 import {
+  GetUserResponse,
   LoginUserRequest,
   RegisterUserRequest,
+  toGetUserResponse,
   toUserResponse,
   UserResponse,
 } from "../models/user-model";
@@ -99,5 +101,29 @@ export class UserService {
     });
 
     return "Logout Successful!";
+  }
+
+  static async getAllUsers(): Promise<GetUserResponse[]> {
+    const users = await prismaClient.user.findMany({
+      orderBy: {
+        id: "asc",
+      },
+    });
+
+    return users.map((user) => toGetUserResponse(user));
+  }
+
+  static async getUserById(id: number): Promise<GetUserResponse> {
+    const user = await prismaClient.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!user) {
+      throw new ResponseError(404, "User not found");
+    }
+
+    return toGetUserResponse(user);
   }
 }

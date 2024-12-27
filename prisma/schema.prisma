@@ -21,7 +21,7 @@ model User{
   password String @db.VarChar(100)
   token String? @db.VarChar(100)
   totalScore Int @default(0)
-  profilePicture String? @db.VarChar(100)
+  profilePicture String @db.VarChar(100)
 
   notes Note[]
   attempts Attempt[]

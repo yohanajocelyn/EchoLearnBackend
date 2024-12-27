@@ -12,6 +12,13 @@ export interface UserResponse {
     username: string;
 }
 
+export interface GetUserResponse{
+    id: number;
+    username: string;
+    email: string;
+    profilePicture: string;
+}
+
 export function toUserResponse(user: User): UserResponse {
     return {
         token: user.token ?? "",
@@ -22,6 +29,15 @@ export function toUserResponse(user: User): UserResponse {
 export interface LoginUserRequest {
     email: string;
     password: string;
+}
+
+export function toGetUserResponse(user: User): GetUserResponse {
+    return {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        profilePicture: user.profilePicture
+    }
 }
 
 

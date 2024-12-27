@@ -17,3 +17,5 @@ publicRouter.post('/variants', VariantController.createVariant)
 //User routes
 publicRouter.post('/api/user/register', UserController.register)
 publicRouter.post('/api/user/login', UserController.login)
+publicRouter.get('/api/user', UserController.getAllUsers)
+publicRouter.get('/api/user/:userId', UserController.getUserById)
