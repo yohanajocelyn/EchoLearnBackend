@@ -5,5 +5,6 @@ export class VariantValidation {
         emptyLyric: z.string(),
         answer: z.string(),
         songId: z.number(),
+        type: z.string()
     })
 }

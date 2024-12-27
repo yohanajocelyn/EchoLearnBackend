@@ -59,6 +59,7 @@ model Variant {
   emptyLyric String
   answer String
   songId Int
+  type String
 
   attempts Attempt[]
   
