@@ -22,4 +22,4 @@ publicRouter.get('/api/user', UserController.getAllUsers)
 publicRouter.get('/api/user/:userId', UserController.getUserById)
 
 //Image routes
-publicRouter.get('/api/default-profile-pictures', FileController.getDefaultProfilePictures)
+publicRouter.get('/api/default-profile-pictures', (FileController.getDefaultProfilePictures))
