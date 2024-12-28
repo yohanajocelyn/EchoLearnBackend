@@ -33,6 +33,10 @@ export class SongController {
             const id: number = Number(req.params.songId);
             const response: SongResponse = await SongService.getSong(id);
 
+            const baseUrl = `${req.protocol}://${req.get('host')}`;
+            response.image = `${baseUrl}/${response.image}`;
+            response.fileName = `${baseUrl}/${response.fileName}`;
+
             res.status(200).json({
                 data: response
             })

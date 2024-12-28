@@ -13,7 +13,14 @@ export class SongService {
     const createReq = Validation.validate(SongValidation.CREATE, req);
 
     const song = await prismaClient.song.create({
-      data: createReq,
+      data: {
+        title: createReq.title,
+        artist: createReq.artist,
+        image: `public/albums/${createReq.image}.jpg`,
+        genre: createReq.genre,
+        lyrics: createReq.lyrics,
+        fileName: `public/songs/${createReq.fileName}.mp3`,
+      },
     });
 
     return toSongResponse(song);
