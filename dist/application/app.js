@@ -10,6 +10,6 @@ const protected_router_1 = require("../routers/protected-router");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(public_router_1.publicRouter);
-app.use(error_middleware_1.errorMiddleware);
 app.use(protected_router_1.protectedRouter);
+app.use(error_middleware_1.errorMiddleware);
 exports.default = app;
