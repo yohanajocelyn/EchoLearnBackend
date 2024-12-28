@@ -27,7 +27,11 @@ export class SongService {
   }
 
   static async getSongs(): Promise<SongResponse[]> {
-    const songs = await prismaClient.song.findMany();
+    const songs = await prismaClient.song.findMany({
+      include: {
+        variants: true,
+      },
+    });
 
     if (!songs) {
       throw new ResponseError(400, "No songs found");
@@ -41,11 +45,44 @@ export class SongService {
       where: {
         id: id,
       },
+      include: {
+        variants: true,
+      },
     });
 
     if (!song) {
       throw new ResponseError(400, "Song with id ${id} not found");
     }
+
+    return toSongResponse(song);
+  }
+
+  static async updateSong(id: number, req: CreateSongRequest): Promise<SongResponse> {
+    const createReq = Validation.validate(SongValidation.CREATE, req);
+
+    const song = await prismaClient.song.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!song) {
+      throw new ResponseError(400, "Song with id ${id} not found");
+    }
+
+    await prismaClient.song.update({
+      where: {
+        id: id,
+      },
+      data: {
+        title: createReq.title,
+        artist: createReq.artist,
+        image: `public/albums/${createReq.image}.jpg`,
+        genre: createReq.genre,
+        lyrics: createReq.lyrics,
+        fileName: `public/songs/${createReq.fileName}.mp3`,
+      },
+    });
 
     return toSongResponse(song);
   }

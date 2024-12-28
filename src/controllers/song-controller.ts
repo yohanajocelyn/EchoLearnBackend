@@ -45,6 +45,19 @@ export class SongController {
         }
     }
 
+    static async updateSong(req: Request, res: Response, next: NextFunction) {
+        try {
+            const request: CreateSongRequest = req.body as CreateSongRequest;
+            const response: SongResponse = await SongService.updateSong(Number(req.params.songId), request);
+
+            res.status(200).json({
+                data: response
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+
     static async deleteSong(req: Request, res: Response, next: NextFunction) {
         try {
             const id: number = Number(req.params.songId);

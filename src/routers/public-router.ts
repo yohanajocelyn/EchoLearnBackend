@@ -10,6 +10,7 @@ export const publicRouter = express.Router()
 publicRouter.post('/songs', SongController.createSong)
 publicRouter.get('/songs', SongController.getSongs)
 publicRouter.get('/songs/:songId', SongController.getSong)
+publicRouter.put('/songs/:songId', SongController.updateSong)
 publicRouter.delete('/songs/:songId', SongController.deleteSong)
 
 //Variant routes

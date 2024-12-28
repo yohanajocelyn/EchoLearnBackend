@@ -7,5 +7,6 @@ export class SongValidation {
         genre: z.string().min(1).max(100),
         image: z.string().min(1).max(100),
         lyrics: z.string(),
+        fileName: z.string()
     })
 }
