@@ -46,7 +46,7 @@ export class UserService {
         email: registerReq.email,
         username: registerReq.username,
         password: registerReq.password,
-        profilePicture: registerReq.profilePicture,
+        profilePicture: `public/images/${registerReq.profilePicture}.jpg`,
         token: uuid(),
       },
     });
