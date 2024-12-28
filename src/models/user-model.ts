@@ -38,4 +38,5 @@ export function toGetUserResponse(user: User): GetUserResponse {
     email: user.email,
     profilePicture: user.profilePicture ?? "",
   };
+
 }
