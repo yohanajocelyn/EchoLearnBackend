@@ -36,7 +36,7 @@ export function toGetUserResponse(user: User): GetUserResponse {
         id: user.id,
         username: user.username,
         email: user.email,
-        profilePicture: user.profilePicture
+        profilePicture: user.profilePicture ?? ""
     }
 }
 

@@ -95,5 +95,28 @@ class UserService {
             return "Logout Successful!";
         });
     }
+    static getAllUsers() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const users = yield database_1.prismaClient.user.findMany({
+                orderBy: {
+                    id: "asc",
+                },
+            });
+            return users.map((user) => (0, user_model_1.toGetUserResponse)(user));
+        });
+    }
+    static getUserById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield database_1.prismaClient.user.findUnique({
+                where: {
+                    id: id,
+                },
+            });
+            if (!user) {
+                throw new response_error_1.ResponseError(404, "User not found");
+            }
+            return (0, user_model_1.toGetUserResponse)(user);
+        });
+    }
 }
 exports.UserService = UserService;

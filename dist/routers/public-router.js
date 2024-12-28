@@ -17,5 +17,7 @@ exports.publicRouter.delete('/songs/:songId', song_controller_1.SongController.d
 //Variant routes
 exports.publicRouter.post('/variants', variant_controller_1.VariantController.createVariant);
 //User routes
-exports.publicRouter.post('/api/users/register', user_controller_1.UserController.register);
-exports.publicRouter.post('/api/users/login', user_controller_1.UserController.login);
+exports.publicRouter.post('/api/user/register', user_controller_1.UserController.register);
+exports.publicRouter.post('/api/user/login', user_controller_1.UserController.login);
+exports.publicRouter.get('/api/user', user_controller_1.UserController.getAllUsers);
+exports.publicRouter.get('/api/user/:userId', user_controller_1.UserController.getUserById);
