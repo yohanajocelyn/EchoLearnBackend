@@ -57,6 +57,26 @@ export class SongService {
     return toSongResponse(song);
   }
 
+  static async getSongByGenre(genre: string): Promise<SongResponse[]> {
+    const songs = await prismaClient.song.findMany({
+      where: {
+        genre: {
+          contains: genre,
+          mode: "insensitive",
+        },
+      },
+      include: {
+        variants: true,
+      },
+    });
+
+    if (!songs) {
+      throw new ResponseError(400, "No songs found");
+    }
+
+    return songs.map((song) => toSongResponse(song));
+  }
+
   static async updateSong(id: number, req: CreateSongRequest): Promise<SongResponse> {
     const createReq = Validation.validate(SongValidation.CREATE, req);
 

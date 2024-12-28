@@ -7,11 +7,12 @@ import { FileController } from "../controllers/file-controller"
 export const publicRouter = express.Router()
 
 //Song routes
-publicRouter.post('/songs', SongController.createSong)
-publicRouter.get('/songs', SongController.getSongs)
-publicRouter.get('/songs/:songId', SongController.getSong)
-publicRouter.put('/songs/:songId', SongController.updateSong)
-publicRouter.delete('/songs/:songId', SongController.deleteSong)
+publicRouter.post('/api/songs', SongController.createSong)
+publicRouter.get('/api/songs', SongController.getSongs)
+publicRouter.get('/api/songs/:songId(\\d+)', SongController.getSong)
+publicRouter.get('/api/songs/:genre', SongController.getSongByGenre)
+publicRouter.put('/api/songs/:songId(\\d+)', SongController.updateSong)
+publicRouter.delete('/api/songs/:songId(\\d+)', SongController.deleteSong)
 
 //Variant routes
 publicRouter.post('/variants', VariantController.createVariant)

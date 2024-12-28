@@ -45,6 +45,25 @@ export class SongController {
         }
     }
 
+    static async getSongByGenre(req: Request, res: Response, next: NextFunction) {
+        try {
+            const response: SongResponse[] = await SongService.getSongByGenre(String(req.params.genre));
+
+            const baseUrl = `${req.protocol}://${req.get('host')}`;
+            const updatedResponse = response.map((song) => ({
+                ...song,
+                image: `${baseUrl}/${song.image}`,
+                fileName: `${baseUrl}/${song.fileName}`
+            }));
+
+            res.status(200).json({
+                data: updatedResponse
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+
     static async updateSong(req: Request, res: Response, next: NextFunction) {
         try {
             const request: CreateSongRequest = req.body as CreateSongRequest;
