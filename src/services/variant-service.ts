@@ -27,4 +27,22 @@ export class VariantService {
 
         return toVariantResponse(variant)
     }
+
+    static async getVariantBySongAndType(songId: number, type: string): Promise<VariantResponse[]> {
+        const variants = await prismaClient.variant.findMany({
+            where: {
+                songId: songId,
+                type: {
+                    contains: type,
+                    mode: 'insensitive'
+                },
+            }
+        })
+
+        if (!variants) {
+            throw new ResponseError(404, 'Variant with songId ${songId} and type ${type} not found')
+        }
+
+        return variants.map((variant) => toVariantResponse(variant))
+    }
 }
