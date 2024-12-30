@@ -1,7 +1,9 @@
+import { User } from "@prisma/client";
 import { prismaClient } from "../application/database";
 import { ResponseError } from "../errors/response-error";
 import {
   CreateSongRequest,
+  searchSongRequest,
   SongResponse,
   toSongResponse,
 } from "../models/song-model";
@@ -56,6 +58,24 @@ export class SongService {
 
     return toSongResponse(song);
   }
+static async searchSong(user: User,req: searchSongRequest): Promise<SongResponse[]> {  
+    const songs = await prismaClient.song.findMany({    
+        where: {      
+            OR: [        
+                { title: { contains: req.keyword, mode: "insensitive" } },        
+                { artist: { contains: req.keyword, mode: "insensitive" } },        
+                { genre: { contains: req.keyword, mode: "insensitive" } },      
+            ],    
+        },    
+        include: {      
+            variants: true,    
+        },  
+    });  
+    if (!songs) {    
+        throw new ResponseError(400, "No songs found");  
+    }  
+    return songs.map((song) => toSongResponse(song));
+}
 
   static async getSongByGenre(genre: string): Promise<SongResponse[]> {
     const songs = await prismaClient.song.findMany({
