@@ -5,7 +5,7 @@ import { AttemptValidation } from "../validations/attempt-validation";
 import { Validation } from "../validations/validation";
 
 export class AttemptService {
-    static async createAttempt(req: CreateAttemptRequest, token: String): Promise<AttemptResponse> {
+    static async createAttempt(req: CreateAttemptRequest, token: String): Promise<String> {
         const createReq = Validation.validate(AttemptValidation.CREATE, req);
 
         const isComplete = createReq.isComplete === "true"
@@ -32,6 +32,6 @@ export class AttemptService {
             }
         });
 
-        return toAttemptResponse(attempt);
+        return "Data created successfully";
     }
 }
