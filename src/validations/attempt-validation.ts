@@ -2,7 +2,6 @@ import { z, ZodType } from "zod";
 
 export class AttemptValidation {
     static readonly CREATE: ZodType = z.object({
-        userId: z.string().regex(/^\d+$/),
         variantId: z.string().regex(/^\d+$/),
         correctAnswer: z.string(),
         attemptedAnswer: z.string(),

@@ -10,7 +10,7 @@ export class AttemptController{
     ){
         try{
             const request: CreateAttemptRequest = req.body as CreateAttemptRequest;
-            const response: AttemptResponse = await AttemptService.createAttempt(request);
+            const response: AttemptResponse = await AttemptService.createAttempt(request, String(req.headers["X-API-TOKEN"]));
 
             res.status(200).json({
                 data: response,

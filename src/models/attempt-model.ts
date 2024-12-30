@@ -1,5 +1,4 @@
 export interface CreateAttemptRequest {
-    userId: string;
     variantId: string;
     correctAnswer: string;
     attemptedAnswer: string;
