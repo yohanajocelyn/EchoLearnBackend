@@ -62,4 +62,34 @@ export class SongService {
 
     return "Song with id ${id} deleted";
   }
+
+  static async searchSong(keyword: string): Promise<SongResponse[]> {
+    const songs = await prismaClient.song.findMany({
+      where: {
+        OR: [
+          {
+            title: {
+              contains: keyword,
+            },
+          },
+          {
+            artist: {
+              contains: keyword,
+            },
+          },
+          {
+            genre: {
+              contains: keyword,
+            },
+          },
+        ],
+      },
+    });
+
+    if (!songs) {
+      throw new ResponseError(400, "No songs found");
+    }
+
+    return songs.map((song) => toSongResponse(song));
+  }
 }
