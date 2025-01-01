@@ -8,3 +8,6 @@ protectedRouter.use(userMiddleware)
 
 protectedRouter.delete("/api/user/logout", UserController.logout)
 protectedRouter.post("/api/attempt", AttemptController.createAttempt)
+protectedRouter.get("/api/attempt/:attemptId", AttemptController.getAttempt)
+protectedRouter.get("/api/attempts", AttemptController.getAttempts)
+protectedRouter.get("/api/attempt/additional-data/:attemptId", AttemptController.getAdditionalAttemptData)

@@ -1,3 +1,5 @@
+import { Song, Variant } from "@prisma/client";
+
 export interface CreateAttemptRequest {
     variantId: string;
     correctAnswer: string;
@@ -18,6 +20,14 @@ export interface AttemptResponse {
     isComplete: boolean;
 }
 
+export interface AdditionalAttemptDetail{
+    songId: number;
+    songTitle: string;
+    artist: string;
+    type: string;
+    variantId: number
+}
+
 export function toAttemptResponse(attempt: AttemptResponse): AttemptResponse {
     return {
         id: attempt.id,
@@ -28,5 +38,15 @@ export function toAttemptResponse(attempt: AttemptResponse): AttemptResponse {
         score: attempt.score,
         attemptedAt: attempt.attemptedAt,
         isComplete: attempt.isComplete,
+    }
+}
+
+export function toAttemptAdditionalDataResponse(song: Song, variant: Variant): AdditionalAttemptDetail {
+    return {
+        songId: song.id,
+        songTitle: song.title,
+        artist: song.artist,
+        type: variant.type,
+        variantId: variant.id
     }
 }
