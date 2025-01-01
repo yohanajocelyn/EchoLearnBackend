@@ -1,6 +1,6 @@
 import { prismaClient } from "../application/database";
 import { ResponseError } from "../errors/response-error";
-import { AdditionalAttemptDetail, AttemptResponse, CreateAttemptRequest, toAttemptAdditionalDataResponse, toAttemptResponse } from "../models/attempt-model";
+import { AdditionalAttemptDetail, AttemptDetail, AttemptResponse, CreateAttemptRequest, toAttemptAdditionalDataResponse, toAttemptDetail, toAttemptResponse } from "../models/attempt-model";
 import { AttemptValidation } from "../validations/attempt-validation";
 import { Validation } from "../validations/validation";
 
@@ -75,33 +75,34 @@ export class AttemptService {
         return attempts.map(attempt => toAttemptResponse(attempt))
     }
 
-    static async getAdditionalAttemptData(token: String, id: number): Promise<AdditionalAttemptDetail> {
-        const attempt = await prismaClient.attempt.findUnique({
+    static async getAttemptDetail(token: String, id: number): Promise<AttemptDetail[]> {
+        const user = await prismaClient.user.findFirst({
             where: {
-                id: id
+                token: token.toString()
             }
         })
 
-        if(!attempt){
-            throw new ResponseError(400, "Attempt does not exist");
+        if(!user){
+            throw new ResponseError(400, "User is not logged in somehow");
         }
 
-        const variant = await prismaClient.variant.findUnique({
+        const attempts = await prismaClient.attempt.findMany({
             where: {
-                id: attempt.variantId
+                userId: user.id
+            },
+            include: {
+                variant: {
+                    include: {
+                        song: true
+                    }
+                }
             }
         })
 
-        if(!variant){
-            throw new ResponseError(400, "Variant does not exist");
+        if(!attempts){
+            throw new ResponseError(400, "No attempts found");
         }
 
-        const song = await prismaClient.song.findUnique({
-            where: {
-                id: variant.songId
-            }
-        })
-
-        return toAttemptAdditionalDataResponse(song!!, variant!!)
+        return attempts.map(attempt => toAttemptDetail(attempt))
     }
 }

@@ -1,4 +1,6 @@
-import { Song, Variant } from "@prisma/client";
+import { Attempt, Song, Variant } from "@prisma/client";
+import { AttemptVariantDetail } from "./variant-model";
+import { AttemptSongDetail } from "./song-model";
 
 export interface CreateAttemptRequest {
     variantId: string;
@@ -20,12 +22,13 @@ export interface AttemptResponse {
     isComplete: boolean;
 }
 
-export interface AdditionalAttemptDetail{
-    songId: number;
-    songTitle: string;
-    artist: string;
-    type: string;
-    variantId: number
+export interface AttemptDetail{
+    id: number;
+    score: number;
+    attemptedAt: Date;
+    isComplete: boolean;
+    variant: AttemptVariantDetail;
+    song: AttemptSongDetail;
 }
 
 export function toAttemptResponse(attempt: AttemptResponse): AttemptResponse {
@@ -41,12 +44,18 @@ export function toAttemptResponse(attempt: AttemptResponse): AttemptResponse {
     }
 }
 
-export function toAttemptAdditionalDataResponse(song: Song, variant: Variant): AdditionalAttemptDetail {
+export function toAttemptDetail(attempt: (Attempt & {variant: Variant & {song: Song}})): AttemptDetail {
     return {
-        songId: song.id,
-        songTitle: song.title,
-        artist: song.artist,
-        type: variant.type,
-        variantId: variant.id
+        id: attempt.id,
+        score: attempt.score,
+        attemptedAt: attempt.attemptedAt,
+        isComplete: attempt.isComplete,
+        variant: {
+            type: attempt.variant.type
+        },
+        song: {
+            title: attempt.variant.song.title,
+            artist: attempt.variant.song.artist
+        }
     }
 }

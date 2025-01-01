@@ -52,21 +52,4 @@ export class AttemptController{
             next(error);
         }
     }
-
-    static async getAdditionalAttemptData(
-        req: Request, 
-        res: Response, 
-        next: NextFunction
-    ){
-        try{
-            const id: number = Number(req.params.attemptId);
-            const response: AdditionalAttemptDetail = await AttemptService.getAdditionalAttemptData(String(req.headers["x-api-token"]), id);
-
-            res.status(200).json({
-                data: response,
-            });
-        }catch(error){
-            next(error);
-        }
-    }
 }

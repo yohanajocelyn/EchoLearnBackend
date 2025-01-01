@@ -21,6 +21,10 @@ export interface SpeakingRequest {
     songId?: number;
 }
 
+export interface AttemptVariantDetail{
+    type: String
+}
+
 export function toVariantResponse(variant: Variant): VariantResponse {
     return {
         id: variant.id,

@@ -25,6 +25,11 @@ export interface searchSongRequest {
     keyword: string;
 }
 
+export interface AttemptSongDetail{
+    title: string;
+    artist: string;
+}
+
 export function toSongResponse(song: (Song & {variants?: Variant[]})): SongResponse {
     return {
         id: song.id,
