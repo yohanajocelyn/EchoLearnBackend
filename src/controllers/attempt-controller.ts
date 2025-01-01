@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { AdditionalAttemptDetail, AttemptResponse, CreateAttemptRequest } from "../models/attempt-model";
+import { AttemptDetail, AttemptResponse, CreateAttemptRequest } from "../models/attempt-model";
 import { AttemptService } from "../services/attempt-service";
 
 export class AttemptController{
@@ -44,6 +44,22 @@ export class AttemptController{
     ){
         try{
             const response: AttemptResponse[] = await AttemptService.getAttempts(String(req.headers["x-api-token"]));
+
+            res.status(200).json({
+                data: response,
+            });
+        }catch(error){
+            next(error);
+        }
+    }
+
+    static async getAttemptDetail(
+        req: Request, 
+        res: Response, 
+        next: NextFunction
+    ){
+        try{
+            const response: AttemptDetail[] = await AttemptService.getAttemptDetail(String(req.headers["x-api-token"]));
 
             res.status(200).json({
                 data: response,

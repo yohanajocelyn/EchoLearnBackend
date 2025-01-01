@@ -1,6 +1,6 @@
 import { prismaClient } from "../application/database";
 import { ResponseError } from "../errors/response-error";
-import { AdditionalAttemptDetail, AttemptDetail, AttemptResponse, CreateAttemptRequest, toAttemptAdditionalDataResponse, toAttemptDetail, toAttemptResponse } from "../models/attempt-model";
+import { AttemptDetail, AttemptResponse, CreateAttemptRequest, toAttemptDetail, toAttemptResponse } from "../models/attempt-model";
 import { AttemptValidation } from "../validations/attempt-validation";
 import { Validation } from "../validations/validation";
 
@@ -75,7 +75,7 @@ export class AttemptService {
         return attempts.map(attempt => toAttemptResponse(attempt))
     }
 
-    static async getAttemptDetail(token: String, id: number): Promise<AttemptDetail[]> {
+    static async getAttemptDetail(token: String): Promise<AttemptDetail[]> {
         const user = await prismaClient.user.findFirst({
             where: {
                 token: token.toString()
