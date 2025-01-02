@@ -17,6 +17,7 @@ export interface GetUserResponse {
   username: string;
   email: string;
   profilePicture: string;
+  token: string;
 }
 
 export function toUserResponse(user: User): UserResponse {
@@ -37,6 +38,7 @@ export function toGetUserResponse(user: User): GetUserResponse {
     username: user.username,
     email: user.email,
     profilePicture: user.profilePicture ?? "",
+    token: user.token ?? ""
   };
 
 }

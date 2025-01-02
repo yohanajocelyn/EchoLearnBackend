@@ -1,16 +1,37 @@
-import { Attempt } from "@prisma/client";
+import { Attempt, Song, Variant } from "@prisma/client";
+import { AttemptVariantDetail } from "./variant-model";
+import { AttemptSongDetail } from "./song-model";
 
 export interface CreateAttemptRequest {
-  userId: number;
-  variantId: number;
-  correctAnswer: string;
-  attemptedAnswer: string;
-  score: number;
-  attemptedAt: Date;
-  isComplete: boolean;
+    variantId: string;
+    correctAnswer: string;
+    attemptedAnswer: string;
+    score: string;
+    attemptedAt: string;
+    isComplete: string;
 }
 
 export interface AttemptResponse {
+    id: number;
+    userId: number;
+    variantId: number;
+    correctAnswer: string;
+    attemptedAnswer: string;
+    score: number;
+    attemptedAt: Date;
+    isComplete: boolean;
+}
+
+export interface AttemptDetail{
+    id: number;
+    score: number;
+    attemptedAt: Date;
+    isComplete: boolean;
+    variant: AttemptVariantDetail;
+    song: AttemptSongDetail;
+}
+
+export interface AttemptSpeakingResponse {
   userId: number;
   variantId: number;
   correctAnswer: string;
@@ -20,7 +41,7 @@ export interface AttemptResponse {
   isComplete: boolean;
 }
 
-export function toAttemptResponse(attempt: Attempt): AttemptResponse {
+export function toAttemptSpeakingResponse(attempt: Attempt): AttemptResponse {
   return {
     userId: attempt.userId,
     variantId: attempt.variantId,
@@ -30,4 +51,33 @@ export function toAttemptResponse(attempt: Attempt): AttemptResponse {
     attemptedAt: attempt.attemptedAt,
     isComplete: attempt.isComplete,
   };
+}
+
+export function toAttemptResponse(attempt: AttemptResponse): AttemptResponse {
+    return {
+        id: attempt.id,
+        userId: attempt.userId,
+        variantId: attempt.variantId,
+        correctAnswer: attempt.correctAnswer,
+        attemptedAnswer: attempt.attemptedAnswer,
+        score: attempt.score,
+        attemptedAt: attempt.attemptedAt,
+        isComplete: attempt.isComplete,
+    }
+}
+
+export function toAttemptDetail(attempt: (Attempt & {variant: Variant & {song: Song}})): AttemptDetail {
+    return {
+        id: attempt.id,
+        score: attempt.score,
+        attemptedAt: attempt.attemptedAt,
+        isComplete: attempt.isComplete,
+        variant: {
+            type: attempt.variant.type
+        },
+        song: {
+            title: attempt.variant.song.title,
+            artist: attempt.variant.song.artist
+        }
+    }
 }

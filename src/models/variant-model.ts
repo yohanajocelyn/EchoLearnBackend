@@ -21,6 +21,9 @@ export interface SpeakingRequest {
 }
 
 
+export interface AttemptVariantDetail{
+    type: String
+}
 
 export function toVariantResponse(variant: Variant): VariantResponse {
     return {
