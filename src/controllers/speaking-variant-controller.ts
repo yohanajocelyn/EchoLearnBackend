@@ -18,9 +18,7 @@ export class SpeakingVariantController {
         request
       );
 
-      res.status(201).json({
-        data: response,
-      });
+      res.status(201).json(response);
     } catch (error) {
       next(error);
     }

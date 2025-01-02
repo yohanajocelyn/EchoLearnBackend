@@ -5,6 +5,7 @@ import { prismaClient } from "../application/database";
 import { ResponseError } from "../errors/response-error";
 import { Validation } from "../validations/validation";
 import { VariantValidation } from "../validations/variant-validation";
+import { toAttemptResponse } from "../models/attempt-model";
 
 export class speakingService {
   static async checkUserAnswer(user: User, req: SpeakingRequest) {
@@ -50,9 +51,9 @@ export class speakingService {
       },
     });
     if (isCorrect) {
-      return { data: createAttempt, message: "your answer is correct" };
+      return toAttemptResponse(createAttempt)
     } else {
-      return { data: createAttempt, message: "your answer is incorrect" };
+      return toAttemptResponse(createAttempt)
     }
   }
 }
