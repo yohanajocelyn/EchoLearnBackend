@@ -41,7 +41,7 @@ export interface AttemptSpeakingResponse {
   isComplete: boolean;
 }
 
-export function toAttemptSpeakingResponse(attempt: Attempt): AttemptResponse {
+export function toAttemptSpeakingResponse(attempt: Attempt): AttemptSpeakingResponse {
   return {
     userId: attempt.userId,
     variantId: attempt.variantId,

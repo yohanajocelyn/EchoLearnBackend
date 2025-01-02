@@ -2,7 +2,6 @@ import express from "express"
 import { UserController } from "../controllers/user-controller"
 import { userMiddleware } from "../middlewares/user-middleware"
 import { SpeakingVariantController } from "../controllers/speaking-variant-controller"
-=======
 import { AttemptController } from "../controllers/attempt-controller"
 
 export const protectedRouter = express.Router()
