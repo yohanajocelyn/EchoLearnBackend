@@ -3,19 +3,28 @@ import { UserRequest } from "../types/user-request";
 import { SpeakingRequest } from "../models/variant-model";
 import { prismaClient } from "../application/database";
 import { ResponseError } from "../errors/response-error";
+import { Validation } from "../validations/validation";
+import { VariantValidation } from "../validations/variant-validation";
+import { toAttemptResponse } from "../models/attempt-model";
 
 export class speakingService {
   static async checkUserAnswer(user: User, req: SpeakingRequest) {
+   const createReq = Validation.validate(
+               VariantValidation.CHECK,
+               req
+           )
+   
     const checkAnswer = await prismaClient.variant.findUnique({
       where: {
-        id: req.id,
+        id: createReq.id,
       },
     });
     if (!checkAnswer) {
       throw new ResponseError(400, "Variant with id ${req.id} not found");
     }
     let isCorrect = false;
-    if (checkAnswer.answer === req.answer) {
+    let scoreAttempt = 0
+    if (checkAnswer.answer === createReq.answer) {
       isCorrect = true;
       const updateTotalScore = await prismaClient.user.update({
         where: {
@@ -25,8 +34,10 @@ export class speakingService {
           totalScore: user.totalScore + 10,
         },
       });
+      scoreAttempt = 10
     } else {
       isCorrect = false;
+      scoreAttempt = 0
     }
     const createAttempt = await prismaClient.attempt.create({
       data: {
@@ -34,15 +45,15 @@ export class speakingService {
         variantId: req.id,
         correctAnswer: checkAnswer.answer,
         attemptedAnswer: req.answer,
-        score: 10,
+        score: scoreAttempt ,
         attemptedAt: new Date(),
         isComplete: isCorrect,
       },
     });
     if (isCorrect) {
-      return "Your Answer is Correct";
-    }else {
-        return "Your Answer is Incorrect";
+      return toAttemptResponse(createAttempt)
+    } else {
+      return toAttemptResponse(createAttempt)
     }
   }
 }

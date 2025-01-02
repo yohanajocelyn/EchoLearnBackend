@@ -7,4 +7,9 @@ export class VariantValidation {
         songId: z.number(),
         type: z.string()
     })
+
+    static readonly CHECK: ZodType = z.object({
+        answer: z.string(),
+        id: z.number()
+    })
 }
