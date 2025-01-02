@@ -45,4 +45,6 @@ export class VariantService {
 
         return variants.map((variant) => toVariantResponse(variant))
     }
+
+    
 }

@@ -11,13 +11,14 @@ export class SpeakingVariantController {
   ) {
     try {
       const request = req.body as SpeakingRequest;
-      request.id = parseInt(req.params.id);
+      request.id = parseInt(req.params.variantId);
+
       const response = await speakingService.checkUserAnswer(
         req.user!,
         request
       );
 
-      res.status(2001).json({
+      res.status(201).json({
         data: response,
       });
     } catch (error) {
