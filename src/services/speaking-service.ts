@@ -5,15 +5,15 @@ import { prismaClient } from "../application/database";
 import { ResponseError } from "../errors/response-error";
 import { Validation } from "../validations/validation";
 import { VariantValidation } from "../validations/variant-validation";
-import { toAttemptResponse, toAttemptSpeakingResponse } from "../models/attempt-model";
+import {
+  toAttemptResponse,
+  toAttemptSpeakingResponse,
+} from "../models/attempt-model";
 
 export class speakingService {
   static async checkUserAnswer(user: User, req: SpeakingRequest) {
-   const createReq = Validation.validate(
-               VariantValidation.CHECK,
-               req
-           )
-   
+    const createReq = Validation.validate(VariantValidation.CHECK, req);
+
     const checkAnswer = await prismaClient.variant.findUnique({
       where: {
         id: createReq.id,
@@ -23,8 +23,18 @@ export class speakingService {
       throw new ResponseError(400, "Variant with id ${req.id} not found");
     }
     let isCorrect = false;
-    let scoreAttempt = 0
-    if (checkAnswer.answer === createReq.answer) {
+    let scoreAttempt = 0;
+
+    // Check if the answer is correct
+    const arrReqAnswer: string[] = createReq.answer.split(" ");
+    const arrCheckAnswer: string[] = checkAnswer.answer.split(" ");
+    let countCorrect = 0;
+    for (let i = 0; i < arrReqAnswer.length; i++) {
+      if (arrReqAnswer[i] === arrCheckAnswer[i]) {
+        countCorrect++;
+      }
+    }
+    if (countCorrect === arrCheckAnswer.length) {
       isCorrect = true;
       const updateTotalScore = await prismaClient.user.update({
         where: {
@@ -34,10 +44,10 @@ export class speakingService {
           totalScore: user.totalScore + 10,
         },
       });
-      scoreAttempt = 10
+      scoreAttempt = 10;
     } else {
       isCorrect = false;
-      scoreAttempt = 0
+      scoreAttempt = 0;
     }
     const createAttempt = await prismaClient.attempt.create({
       data: {
@@ -45,15 +55,15 @@ export class speakingService {
         variantId: req.id,
         correctAnswer: checkAnswer.answer,
         attemptedAnswer: req.answer,
-        score: scoreAttempt ,
+        score: scoreAttempt,
         attemptedAt: new Date(),
         isComplete: isCorrect,
       },
     });
     if (isCorrect) {
-      return toAttemptSpeakingResponse(createAttempt)
+      return toAttemptSpeakingResponse(createAttempt);
     } else {
-      return toAttemptSpeakingResponse(createAttempt)
+      return toAttemptSpeakingResponse(createAttempt);
     }
   }
 }
