@@ -16,7 +16,6 @@ publicRouter.delete('/api/songs/:songId(\\d+)', SongController.deleteSong)
 
 //Variant routes
 publicRouter.post('/api/variants', VariantController.createVariant)
-publicRouter.get('/api/variants/:songId(\\d+)/:type', VariantController.getVariantBySongAndType)
 
 //User routes
 publicRouter.post('/api/user/register', UserController.register)

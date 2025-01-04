@@ -25,8 +25,15 @@ export class SongController {
     try {
       const response: SongResponse[] = await SongService.getSongs();
 
+      const baseUrl = `${req.protocol}://${req.get("host")}`;
+      const updatedResponse = response.map((song) => ({
+        ...song,
+        image: `${baseUrl}/${song.image}`,
+        fileName: `${baseUrl}/${song.fileName}`,
+      }));
+
       res.status(200).json({
-        data: response,
+        data: updatedResponse,
       });
     } catch (error) {
       next(error);

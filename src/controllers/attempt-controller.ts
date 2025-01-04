@@ -29,6 +29,10 @@ export class AttemptController{
             const id: number = Number(req.params.attemptId);
             const response: AttemptResponse = await AttemptService.getAttempt(String(req.headers["x-api-token"]), id);
 
+            const baseUrl = `${req.protocol}://${req.get("host")}`;
+            response.song!!.image = `${baseUrl}/${response.song!!.image}`;
+            response.song!!.fileName = `${baseUrl}/${response.song!!.fileName}`;
+
             res.status(200).json({
                 data: response,
             });

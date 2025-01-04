@@ -1,6 +1,6 @@
 import { prismaClient } from "../application/database";
 import { ResponseError } from "../errors/response-error";
-import { AttemptDetail, AttemptResponse, CreateAttemptRequest, toAttemptDetail, toAttemptResponse } from "../models/attempt-model";
+import { AttemptDetail, AttemptResponse, CreateAttemptRequest, toAttemptDetail, toAttemptResponse, toFullAttemptResponse } from "../models/attempt-model";
 import { AttemptValidation } from "../validations/attempt-validation";
 import { Validation } from "../validations/validation";
 
@@ -49,10 +49,17 @@ export class AttemptService {
         const attempt = await prismaClient.attempt.findUnique({
             where: {
                 id: id
+            },
+            include: {
+                variant: {
+                    include: {
+                        song: true
+                    }
+                }
             }
         })
 
-        return toAttemptResponse(attempt!!)
+        return toFullAttemptResponse(attempt!!)
     }
 
     static async getAttempts(token: String): Promise<AttemptResponse[]> {
