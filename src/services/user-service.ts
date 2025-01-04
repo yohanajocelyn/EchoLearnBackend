@@ -7,7 +7,9 @@ import {
   RegisterUserRequest,
   toGetUserResponse,
   toUserResponse,
+  LeaderboardResponse,
   UserResponse,
+  toLeaderboardResponse,
 } from "../models/user-model";
 import { UserValidation } from "../validations/user-validation";
 import { Validation } from "../validations/validation";
@@ -126,4 +128,13 @@ export class UserService {
 
     return toGetUserResponse(user);
   }
+
+  static async getUserByTotalScore(user:User): Promise<LeaderboardResponse[]> {
+    const users = await prismaClient.user.findMany({
+      orderBy: {
+        totalScore: "desc",
+      },
+    });
+    return users.map((user) => toLeaderboardResponse(user));
+  } 
 }

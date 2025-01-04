@@ -20,6 +20,23 @@ export interface GetUserResponse {
   token: string;
 }
 
+export interface LeaderboardResponse {
+  id: number;
+  username: string;
+  totalScore: number;
+  profilePicture: string;
+}
+
+export function toLeaderboardResponse(user: User): LeaderboardResponse {
+  return {
+    id: user.id,
+    username: user.username,
+    totalScore: user.totalScore,
+    profilePicture: user.profilePicture ?? ""
+  };
+}
+
+
 export function toUserResponse(user: User): UserResponse {
   return {
     token: user.token ?? "",

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { GetUserResponse, LoginUserRequest, RegisterUserRequest, UserResponse } from "../models/user-model";
+import { GetUserResponse, toLeaderboardResponse, LoginUserRequest, RegisterUserRequest, UserResponse, LeaderboardResponse } from "../models/user-model";
 import { UserService } from "../services/user-service";
 import { UserRequest } from "../types/user-request";
 
@@ -66,6 +66,22 @@ export class UserController {
         try {
             const response: GetUserResponse = await UserService.getUserById(Number(req.params.userId))
 
+            res.status(200).json({
+                data: response
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    static async getUserByTotalScore(req: UserRequest, res: Response, next: NextFunction) {
+        try {
+            const response: LeaderboardResponse[] = await UserService.getUserByTotalScore(req.user!)
+            const baseUrl = `${req.protocol}://${req.get("host")}`;
+response.forEach(user => {
+        user.profilePicture = `${baseUrl}/${user.profilePicture}`;
+       
+      });
             res.status(200).json({
                 data: response
             })
