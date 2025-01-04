@@ -6,6 +6,7 @@ import {
 } from "../models/song-model";
 import { SongService } from "../services/song-service";
 import { UserRequest } from "../types/user-request";
+import { ResponseError } from "../errors/response-error";
 
 export class SongController {
   static async createSong(req: Request, res: Response, next: NextFunction) {
@@ -24,7 +25,11 @@ export class SongController {
   static async getSongs(req: Request, res: Response, next: NextFunction) {
     try {
       const response: SongResponse[] = await SongService.getSongs();
-
+      const baseUrl = `${req.protocol}://${req.get("host")}`;
+      response.forEach(song => {
+        song.image = `${baseUrl}/${song.image}`;
+        song.fileName = `${baseUrl}/${song.fileName}`;
+      });
       res.status(200).json({
         data: response,
       });
@@ -102,14 +107,22 @@ export class SongController {
 
   static async searchSong(req: UserRequest, res: Response, next: NextFunction) {
     try {
-      const request = req.body as searchSongRequest;
-      const response = await SongService.searchSong(req.user!, request);
-
-      res.status(201).json({
+      const query = req.params.keyword as string;
+  
+      if (!query) {
+        throw new ResponseError(400, "Search keyword is required");
+      }
+  
+      const response = await SongService.searchSong(req.user!!,query);
+      
+      res.status(200).json({
         data: response,
+        "count" : query
       });
+    
     } catch (error) {
       next(error);
     }
   }
+  
 }

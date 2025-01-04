@@ -34,6 +34,8 @@ export class speakingService {
         countCorrect++;
       }
     }
+
+    const finalScore = (countCorrect / arrCheckAnswer.length)* 100;
     if (countCorrect === arrCheckAnswer.length) {
       isCorrect = true;
       const updateTotalScore = await prismaClient.user.update({
@@ -41,7 +43,7 @@ export class speakingService {
           id: user.id,
         },
         data: {
-          totalScore: user.totalScore + 10,
+          totalScore: finalScore,
         },
       });
       scoreAttempt = 10;

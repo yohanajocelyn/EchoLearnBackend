@@ -13,7 +13,6 @@ publicRouter.get('/api/songs/:songId(\\d+)', SongController.getSong)
 publicRouter.get('/api/songs/:genre', SongController.getSongByGenre)
 publicRouter.put('/api/songs/:songId(\\d+)', SongController.updateSong)
 publicRouter.delete('/api/songs/:songId(\\d+)', SongController.deleteSong)
-
 //Variant routes
 publicRouter.post('/api/variants', VariantController.createVariant)
 publicRouter.get('/api/variants/:songId(\\d+)/:type', VariantController.getVariantBySongAndType)
@@ -26,3 +25,5 @@ publicRouter.get('/api/user/:userId', UserController.getUserById)
 
 //Image routes
 publicRouter.get('/api/default-profile-pictures', (FileController.getDefaultProfilePictures))
+
+
