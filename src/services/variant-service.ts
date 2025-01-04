@@ -45,8 +45,6 @@ export class VariantService {
 
         return variants.map((variant) => toVariantResponse(variant))
     }
-<<<<<<< Updated upstream
-=======
 
     static async getVariantById(id: number): Promise<VariantResponse> {
         const variant = await prismaClient.variant.findUnique({
@@ -61,5 +59,4 @@ export class VariantService {
 
         return toVariantResponse(variant)
     }
->>>>>>> Stashed changes
 }

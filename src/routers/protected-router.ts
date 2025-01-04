@@ -11,10 +11,6 @@ protectedRouter.delete("/api/user/logout", UserController.logout)
 protectedRouter.post("/api/attempt", AttemptController.createAttempt)
 protectedRouter.get("/api/attempt/:attemptId", AttemptController.getAttempt)
 protectedRouter.get("/api/attempts", AttemptController.getAttempts)
-<<<<<<< Updated upstream
-protectedRouter.get("/api/attempts-detail", AttemptController.getAttemptDetail)
-=======
 protectedRouter.get("/api/attempts-detail", AttemptController.getAttemptDetail)
 protectedRouter.get("/api/variants/attempt/:variantId(\\d+)", VariantController.getVariantById)
 protectedRouter.get('/api/variants/:songId(\\d+)/:type', VariantController.getVariantBySongAndType)
->>>>>>> Stashed changes

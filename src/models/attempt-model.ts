@@ -60,9 +60,6 @@ export function toAttemptDetail(attempt: (Attempt & {variant: Variant & {song: S
             artist: attempt.variant.song.artist
         }
     }
-<<<<<<< Updated upstream
-}
-=======
 }
 
 export function toFullAttemptResponse(attempt: (Attempt & {variant: Variant & {song: Song}})): AttemptResponse {
@@ -79,4 +76,3 @@ export function toFullAttemptResponse(attempt: (Attempt & {variant: Variant & {s
         variant: attempt.variant
     }
 }
->>>>>>> Stashed changes
