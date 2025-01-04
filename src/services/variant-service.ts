@@ -45,4 +45,21 @@ export class VariantService {
 
         return variants.map((variant) => toVariantResponse(variant))
     }
+<<<<<<< Updated upstream
+=======
+
+    static async getVariantById(id: number): Promise<VariantResponse> {
+        const variant = await prismaClient.variant.findUnique({
+            where: {
+                id: id,
+            }
+        })
+
+        if (!variant) {
+            throw new ResponseError(404, 'Variant with id ${id} not found')
+        }
+
+        return toVariantResponse(variant)
+    }
+>>>>>>> Stashed changes
 }
