@@ -30,8 +30,8 @@ protectedRouter.get("/api/variants/attempt/:variantId(\\d+)", VariantController.
 protectedRouter.get('/api/variants/:songId(\\d+)/:type', VariantController.getVariantBySongAndType)
 
 //Note routes
-protectedRouter.post("/api/note", NoteController.createNote)
-protectedRouter.get("/api/notes", NoteController.getNotes)
-protectedRouter.get("/api/note/:noteId(\\d+)", NoteController.getNote)
-protectedRouter.delete("/api/note/:noteId(\\d+)", NoteController.deleteNote)
-protectedRouter.put("/api/note/:noteId(\\d+)", NoteController.updateNote)
+protectedRouter.post("/api/note/:username", NoteController.createNote)
+protectedRouter.get("/api/notes/:username", NoteController.getNotes)
+protectedRouter.get("/api/note/:noteId(\\d+)/:username", NoteController.getNote)
+protectedRouter.delete("/api/note/:noteId(\\d+)/:username", NoteController.deleteNote)
+protectedRouter.put("/api/note/:noteId(\\d+)/:username", NoteController.updateNote)

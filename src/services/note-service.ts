@@ -5,12 +5,12 @@ import { NoteValidation } from "../validations/note-validation";
 import { Validation } from "../validations/validation";
 
 export class NoteService {
-    static async createNote(token: String, req: CreateNoteRequest): Promise<String> {
+    static async createNote(username: string, req: CreateNoteRequest): Promise<string> {
         const createReq = Validation.validate(NoteValidation.CREATE, req);
 
         const user = await prismaClient.user.findFirst({
             where: {
-                token: token.toString()
+                username: username
             }
         })
 
@@ -29,10 +29,10 @@ export class NoteService {
         return "Data created successfully";
     }
 
-    static async getNotes(token: String): Promise<NoteResponse[]> {
+    static async getNotes(username: string): Promise<NoteResponse[]> {
         const user = await prismaClient.user.findFirst({
             where: {
-                token: token.toString()
+                username: username.toString()
             }
         })
 
@@ -49,10 +49,10 @@ export class NoteService {
         return notes.map(note => toNoteResponse(note))
     }
 
-    static async getNote(token: String, id: number): Promise<NoteResponse> {
+    static async getNote(username: string, id: number): Promise<NoteResponse> {
         const user = await prismaClient.user.findFirst({
             where: {
-                token: token.toString()
+                username: username.toString()
             }
         })
 
@@ -69,10 +69,10 @@ export class NoteService {
         return toNoteResponse(note!!)
     }
 
-    static async deleteNote(token: String, id: number): Promise<String> {
+    static async deleteNote(username: string, id: number): Promise<string> {
         const user = await prismaClient.user.findFirst({
             where: {
-                token: token.toString()
+                username: username.toString()
             }
         })
 
@@ -89,12 +89,12 @@ export class NoteService {
         return "Data deleted successfully";
     }
 
-    static async updateNote(token: String, id: number, req: CreateNoteRequest): Promise<String> {
+    static async updateNote(username: string, id: number, req: CreateNoteRequest): Promise<string> {
         const createReq = Validation.validate(NoteValidation.CREATE, req);
 
         const user = await prismaClient.user.findFirst({
             where: {
-                token: token.toString()
+                username: username.toString()
             }
         })
 

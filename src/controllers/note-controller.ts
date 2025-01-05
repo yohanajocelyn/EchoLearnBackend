@@ -1,16 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import { CreateNoteRequest, NoteResponse } from "../models/note-model";
 import { NoteService } from "../services/note-service";
+import { UserRequest } from "../types/user-request";
 
 export class NoteController{
     static async createNote(
-        req: Request, 
+        req: UserRequest, 
         res: Response, 
         next: NextFunction
     ){
         try{
             const request: CreateNoteRequest = req.body as CreateNoteRequest;
-            const response: String = await NoteService.createNote(String(req.headers["x-api-token"]), request);
+            const response: String = await NoteService.createNote(req.params.username as string, request);
 
             res.status(200).json({
                 data: response,
@@ -21,12 +22,12 @@ export class NoteController{
     }
 
     static async getNotes(
-        req: Request, 
+        req: UserRequest, 
         res: Response, 
         next: NextFunction
     ){
         try{
-            const response: NoteResponse[] = await NoteService.getNotes(String(req.headers["x-api-token"]));
+            const response: NoteResponse[] = await NoteService.getNotes(req.params.username as string);
 
             res.status(200).json({
                 data: response,
@@ -37,13 +38,13 @@ export class NoteController{
     }
     
     static async getNote(
-        req: Request, 
+        req: UserRequest, 
         res: Response, 
         next: NextFunction
     ){
         try{
             const id: number = Number(req.params.noteId);
-            const response: NoteResponse = await NoteService.getNote(String(req.headers["x-api-token"]), id);
+            const response: NoteResponse = await NoteService.getNote(req.params.username as string, id);
 
             res.status(200).json({
                 data: response,
@@ -54,13 +55,13 @@ export class NoteController{
     }
 
     static async deleteNote(
-        req: Request, 
+        req: UserRequest, 
         res: Response, 
         next: NextFunction
     ){
         try{
             const id: number = Number(req.params.noteId);
-            const response: String = await NoteService.deleteNote(String(req.headers["x-api-token"]), id);
+            const response: String = await NoteService.deleteNote(req.params.username as string, id);
 
             res.status(200).json({
                 data: response,
@@ -78,7 +79,7 @@ export class NoteController{
         try{
             const id: number = Number(req.params.noteId);
             const request: CreateNoteRequest = req.body as CreateNoteRequest;
-            const response: String = await NoteService.updateNote(String(req.headers["x-api-token"]), id, request);
+            const response: String = await NoteService.updateNote(req.params.username as string, id, request);
 
             res.status(200).json({
                 data: response,
