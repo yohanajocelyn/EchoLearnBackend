@@ -25,13 +25,17 @@ export class SongController {
   static async getSongs(req: Request, res: Response, next: NextFunction) {
     try {
       const response: SongResponse[] = await SongService.getSongs();
+
+
       const baseUrl = `${req.protocol}://${req.get("host")}`;
-      response.forEach(song => {
-        song.image = `${baseUrl}/${song.image}`;
-        song.fileName = `${baseUrl}/${song.fileName}`;
-      });
+      const updatedResponse = response.map((song) => ({
+        ...song,
+        image: `${baseUrl}/${song.image}`,
+        fileName: `${baseUrl}/${song.fileName}`,
+      }));
+
       res.status(200).json({
-        data: response,
+        data: updatedResponse,
       });
     } catch (error) {
       next(error);

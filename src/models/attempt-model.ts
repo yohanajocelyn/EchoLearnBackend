@@ -20,6 +20,8 @@ export interface AttemptResponse {
     score: number;
     attemptedAt: Date;
     isComplete: boolean;
+    song?: Song;
+    variant?: Variant
 }
 
 export interface AttemptDetail{
@@ -79,5 +81,20 @@ export function toAttemptDetail(attempt: (Attempt & {variant: Variant & {song: S
             title: attempt.variant.song.title,
             artist: attempt.variant.song.artist
         }
+    }
+}
+
+export function toFullAttemptResponse(attempt: (Attempt & {variant: Variant & {song: Song}})): AttemptResponse {
+    return {
+        id: attempt.id,
+        userId: attempt.userId,
+        variantId: attempt.variantId,
+        correctAnswer: attempt.correctAnswer,
+        attemptedAnswer: attempt.attemptedAnswer,
+        score: attempt.score,
+        attemptedAt: attempt.attemptedAt,
+        isComplete: attempt.isComplete,
+        song: attempt.variant.song,
+        variant: attempt.variant
     }
 }

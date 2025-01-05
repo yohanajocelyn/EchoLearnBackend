@@ -30,4 +30,18 @@ export class VariantController {
             next(error)
         }
     }
+
+    static async getVariantById(req: Request, res: Response, next: NextFunction) {
+        try {
+            const id = req.params.variantId;
+
+            const response: VariantResponse = await VariantService.getVariantById(Number(id));
+
+            res.status(200).json({
+                data: response
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
 }
