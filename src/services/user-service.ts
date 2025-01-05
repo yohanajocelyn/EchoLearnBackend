@@ -7,7 +7,10 @@ import {
   RegisterUserRequest,
   toGetUserResponse,
   toUserResponse,
+  LeaderboardResponse,
   UserResponse,
+  toLeaderboardResponse,
+  UpdateUserRequest,
 } from "../models/user-model";
 import { UserValidation } from "../validations/user-validation";
 import { Validation } from "../validations/validation";
@@ -113,10 +116,10 @@ export class UserService {
     return users.map((user) => toGetUserResponse(user));
   }
 
-  static async getUserById(id: number): Promise<GetUserResponse> {
+  static async getUserById(userr:User, username: String): Promise<GetUserResponse> {
     const user = await prismaClient.user.findUnique({
       where: {
-        id: id,
+        username: username.toString(),
       },
     });
 
@@ -126,4 +129,65 @@ export class UserService {
 
     return toGetUserResponse(user);
   }
+
+  static async getUserByTotalScore(user:User): Promise<LeaderboardResponse[]> {
+    const users = await prismaClient.user.findMany({
+      orderBy: {
+        totalScore: "desc",
+      },
+    });
+    return users.map((user) => toLeaderboardResponse(user));
+  } 
+
+  // static async updateUser(user : User, req: UpdateUserRequest): Promise<string> {
+  //     const findUser = await prismaClient.user.findUnique({
+  //       where:{
+  //         id: user.id
+  //       }
+  //     })
+  //     let currPhoto= null
+  //     if(req.profilePicture == ""){
+  //       currPhoto = findUser?.profilePicture
+  //     }else {
+  //       currPhoto = req.profilePicture
+  //     }
+  //     const updateuser = await prismaClient.user.update({
+  //         where: {
+  //          id: user.id
+  //         },
+  //         data: {
+  //           email: req.email,
+  //           username: req.password,
+  //           profilePicture : `public/images/${currPhoto}.jpg`
+            
+  //         }
+  //     })
+  //     return "success"
+  // }
+  static async updateUser(user : User, req: UpdateUserRequest): Promise<string> {
+    const findUser = await prismaClient.user.findUnique({
+      where:{
+        id: user.id
+      }
+    })
+    let currPhoto= null
+    if(req.profilePicture == ""){
+      currPhoto = findUser?.profilePicture
+    }else {
+      currPhoto = req.profilePicture
+    }
+    const hashed = await bcrypt.hash(req.password, 10)
+    const updateuser = await prismaClient.user.update({
+        where: {
+         id: user.id
+        },
+        data: {
+          email: req.email,
+          username: req.username,
+          profilePicture : `public/images/${currPhoto}.jpg`,
+          password: hashed
+        }
+    })
+    return "success"
+}
 }

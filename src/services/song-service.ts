@@ -58,14 +58,29 @@ export class SongService {
 
     return toSongResponse(song);
   }
-static async searchSong(user: User,req: searchSongRequest): Promise<SongResponse[]> {  
+static async searchSong(user:User,keyword: string): Promise<SongResponse[]> {  
     const songs = await prismaClient.song.findMany({    
         where: {      
-            OR: [        
-                { title: { contains: req.keyword, mode: "insensitive" } },        
-                { artist: { contains: req.keyword, mode: "insensitive" } },        
-                { genre: { contains: req.keyword, mode: "insensitive" } },      
-            ],    
+          OR: [
+            {
+              title: {
+                contains: keyword,
+                mode: "insensitive"
+              }
+            },
+            {
+              artist: {
+                contains: keyword,
+                mode: "insensitive"
+              }
+            },
+            {
+              genre: {
+                contains: keyword,
+                mode: "insensitive"
+              }
+            }
+          ]
         },    
         include: {      
             variants: true,    

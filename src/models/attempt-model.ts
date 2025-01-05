@@ -40,6 +40,28 @@ export interface AttemptDetail{
     song: AttemptSongDetail;
 }
 
+export interface AttemptSpeakingResponse {
+  userId: number;
+  variantId: number;
+  correctAnswer: string;
+  attemptedAnswer: string;
+  score: number;
+  attemptedAt: Date;
+  isComplete: boolean;
+}
+
+export function toAttemptSpeakingResponse(attempt: Attempt): AttemptSpeakingResponse {
+  return {
+    userId: attempt.userId,
+    variantId: attempt.variantId,
+    correctAnswer: attempt.correctAnswer,
+    attemptedAnswer: attempt.attemptedAnswer,
+    score: attempt.score,
+    attemptedAt: attempt.attemptedAt,
+    isComplete: attempt.isComplete,
+  };
+}
+
 export function toAttemptResponse(attempt: AttemptResponse): AttemptResponse {
     return {
         id: attempt.id,

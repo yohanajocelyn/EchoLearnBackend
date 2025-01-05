@@ -16,10 +16,10 @@ export interface VariantResponse {
 }
 
 export interface SpeakingRequest {
-    id: number;
     answer: string;
-    songId?: number;
+    id: number;
 }
+
 
 export interface AttemptVariantDetail{
     type: String
