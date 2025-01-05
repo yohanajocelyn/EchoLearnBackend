@@ -9,4 +9,11 @@ export class AttemptValidation {
         attemptedAt: z.string(),
         isComplete: z.string()
     })
+
+    static readonly UPDATE: ZodType = z.object({
+        attemptedAnswer: z.string(),
+        score: z.string().regex(/^\d+$/),
+        attemptedAt: z.string(),
+        isComplete: z.string()
+    })
 }

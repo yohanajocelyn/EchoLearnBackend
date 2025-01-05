@@ -14,3 +14,6 @@ protectedRouter.get("/api/attempts", AttemptController.getAttempts)
 protectedRouter.get("/api/attempts-detail", AttemptController.getAttemptDetail)
 protectedRouter.get("/api/variants/attempt/:variantId(\\d+)", VariantController.getVariantById)
 protectedRouter.get('/api/variants/:songId(\\d+)/:type', VariantController.getVariantBySongAndType)
+
+//Attempt routes
+protectedRouter.put("/api/attempt/:attemptId(\\d+)", AttemptController.updateAttempt)

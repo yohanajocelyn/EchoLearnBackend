@@ -24,6 +24,13 @@ export interface AttemptResponse {
     variant?: Variant
 }
 
+export interface UpdateAttemptRequest {
+    attemptedAnswer: string;
+    score: string;
+    attemptedAt: string;
+    isComplete: string;
+}
+
 export interface AttemptDetail{
     id: number;
     score: number;
