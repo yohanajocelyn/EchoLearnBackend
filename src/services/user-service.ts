@@ -139,29 +139,55 @@ export class UserService {
     return users.map((user) => toLeaderboardResponse(user));
   } 
 
-  static async updateUser(user : User, req: UpdateUserRequest): Promise<string> {
-      const findUser = await prismaClient.user.findUnique({
-        where:{
-          id: user.id
-        }
-      })
-      let currPhoto= null
-      if(req.profilePicture == ""){
-        currPhoto = findUser?.profilePicture
-      }else {
-        currPhoto = req.profilePicture
-      }
-      const updateuser = await prismaClient.user.update({
-          where: {
-           id: user.id
-          },
-          data: {
-            email: req.email,
-            username: req.password,
-            profilePicture : `public/images/${currPhoto}.jpg`
+  // static async updateUser(user : User, req: UpdateUserRequest): Promise<string> {
+  //     const findUser = await prismaClient.user.findUnique({
+  //       where:{
+  //         id: user.id
+  //       }
+  //     })
+  //     let currPhoto= null
+  //     if(req.profilePicture == ""){
+  //       currPhoto = findUser?.profilePicture
+  //     }else {
+  //       currPhoto = req.profilePicture
+  //     }
+  //     const updateuser = await prismaClient.user.update({
+  //         where: {
+  //          id: user.id
+  //         },
+  //         data: {
+  //           email: req.email,
+  //           username: req.password,
+  //           profilePicture : `public/images/${currPhoto}.jpg`
             
-          }
-      })
-      return "success"
-  }
+  //         }
+  //     })
+  //     return "success"
+  // }
+  static async updateUser(user : User, req: UpdateUserRequest): Promise<string> {
+    const findUser = await prismaClient.user.findUnique({
+      where:{
+        id: user.id
+      }
+    })
+    let currPhoto= null
+    if(req.profilePicture == ""){
+      currPhoto = findUser?.profilePicture
+    }else {
+      currPhoto = req.profilePicture
+    }
+    const hashed = await bcrypt.hash(req.password, 10)
+    const updateuser = await prismaClient.user.update({
+        where: {
+         id: user.id
+        },
+        data: {
+          email: req.email,
+          username: req.username,
+          profilePicture : `public/images/${currPhoto}.jpg`,
+          password: hashed
+        }
+    })
+    return "success"
+}
 }
