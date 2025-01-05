@@ -115,10 +115,10 @@ export class UserService {
     return users.map((user) => toGetUserResponse(user));
   }
 
-  static async getUserById(id: number): Promise<GetUserResponse> {
+  static async getUserById(userr:User, username: String): Promise<GetUserResponse> {
     const user = await prismaClient.user.findUnique({
       where: {
-        id: id,
+        username: username.toString(),
       },
     });
 

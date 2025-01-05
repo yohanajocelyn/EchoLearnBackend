@@ -18,6 +18,7 @@ export interface GetUserResponse {
   email: string;
   profilePicture: string;
   token: string;
+  totalScore: number;
 }
 
 export interface LeaderboardResponse {
@@ -55,7 +56,8 @@ export function toGetUserResponse(user: User): GetUserResponse {
     username: user.username,
     email: user.email,
     profilePicture: user.profilePicture ?? "",
-    token: user.token ?? ""
+    token: user.token ?? "",
+    totalScore: user.totalScore,
   };
 
 }

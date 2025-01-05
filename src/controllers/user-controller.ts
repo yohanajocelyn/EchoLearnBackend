@@ -68,15 +68,15 @@ export class UserController {
     }
   }
 
-  static async getUserById(req: Request, res: Response, next: NextFunction) {
-    try {
-      const response: GetUserResponse = await UserService.getUserById(
-        Number(req.params.userId)
-      );
+  static async getUserByUsername(req: UserRequest, res: Response, next: NextFunction) {
 
-      res.status(200).json({
-        data: response,
-      });
+    try {
+      const baseUrl = `${req.protocol}://${req.get("host")}`;
+      const response: GetUserResponse = await UserService.getUserById(req.user!,
+       req.params.username
+      );
+      response.profilePicture = `${baseUrl}/${response.profilePicture}`;
+      res.status(200).json(response);
     } catch (error) {
       next(error);
     }

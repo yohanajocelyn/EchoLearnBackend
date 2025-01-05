@@ -21,7 +21,6 @@ publicRouter.get('/api/variants/:songId(\\d+)/:type', VariantController.getVaria
 publicRouter.post('/api/user/register', UserController.register)
 publicRouter.post('/api/user/login', UserController.login)
 publicRouter.get('/api/user', UserController.getAllUsers)
-publicRouter.get('/api/user/:userId', UserController.getUserById)
 
 //Image routes
 publicRouter.get('/api/default-profile-pictures', (FileController.getDefaultProfilePictures))

@@ -21,3 +21,4 @@ protectedRouter.get("/api/attempts-detail", AttemptController.getAttemptDetail)
 protectedRouter.get("/api/songs/search/:keyword", SongController.searchSong)
 
 protectedRouter.get("/api/users/leaderboard", UserController.getUserByTotalScore)
+protectedRouter.get('/api/user/:username', UserController.getUserByUsername)
