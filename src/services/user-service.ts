@@ -7,7 +7,9 @@ import {
   RegisterUserRequest,
   toGetUserResponse,
   toUserResponse,
+  LeaderboardResponse,
   UserResponse,
+  toLeaderboardResponse,
 } from "../models/user-model";
 import { UserValidation } from "../validations/user-validation";
 import { Validation } from "../validations/validation";
@@ -113,10 +115,10 @@ export class UserService {
     return users.map((user) => toGetUserResponse(user));
   }
 
-  static async getUserById(id: number): Promise<GetUserResponse> {
+  static async getUserById(userr:User, username: String): Promise<GetUserResponse> {
     const user = await prismaClient.user.findUnique({
       where: {
-        id: id,
+        username: username.toString(),
       },
     });
 
@@ -126,4 +128,13 @@ export class UserService {
 
     return toGetUserResponse(user);
   }
+
+  static async getUserByTotalScore(user:User): Promise<LeaderboardResponse[]> {
+    const users = await prismaClient.user.findMany({
+      orderBy: {
+        totalScore: "desc",
+      },
+    });
+    return users.map((user) => toLeaderboardResponse(user));
+  } 
 }

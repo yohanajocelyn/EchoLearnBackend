@@ -18,7 +18,25 @@ export interface GetUserResponse {
   email: string;
   profilePicture: string;
   token: string;
+  totalScore: number;
 }
+
+export interface LeaderboardResponse {
+  id: number;
+  username: string;
+  totalScore: number;
+  profilePicture: string;
+}
+
+export function toLeaderboardResponse(user: User): LeaderboardResponse {
+  return {
+    id: user.id,
+    username: user.username,
+    totalScore: user.totalScore,
+    profilePicture: user.profilePicture ?? ""
+  };
+}
+
 
 export function toUserResponse(user: User): UserResponse {
   return {
@@ -38,7 +56,8 @@ export function toGetUserResponse(user: User): GetUserResponse {
     username: user.username,
     email: user.email,
     profilePicture: user.profilePicture ?? "",
-    token: user.token ?? ""
+    token: user.token ?? "",
+    totalScore: user.totalScore,
   };
 
 }
