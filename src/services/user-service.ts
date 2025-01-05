@@ -111,6 +111,9 @@ export class UserService {
       orderBy: {
         id: "asc",
       },
+      include: {
+        attempts: true
+      }
     });
 
     return users.map((user) => toGetUserResponse(user));
@@ -121,6 +124,9 @@ export class UserService {
       where: {
         username: username.toString(),
       },
+      include: {
+        attempts: true
+      }
     });
 
     if (!user) {
@@ -132,11 +138,35 @@ export class UserService {
 
   static async getUserByTotalScore(user:User): Promise<LeaderboardResponse[]> {
     const users = await prismaClient.user.findMany({
-      orderBy: {
-        totalScore: "desc",
-      },
+      orderBy: [
+        {
+          totalScore: "desc",
+        },
+        {
+          username: "asc"
+        }
+      ],
+      include: {
+        attempts: true
+      }
     });
-    return users.map((user) => toLeaderboardResponse(user));
+
+    const updatedUsers = await Promise.all(users.map(async (user) => {
+      const totalScore = user.attempts.reduce((acc, attempt) => acc + attempt.score, 0);
+
+      const updatedUser = await prismaClient.user.update({
+          where: {
+              id: user.id
+          },
+          data: {
+              totalScore: totalScore
+          }
+      });
+
+      return toLeaderboardResponse(updatedUser);
+    }));
+
+    return updatedUsers;
   } 
 
   // static async updateUser(user : User, req: UpdateUserRequest): Promise<string> {

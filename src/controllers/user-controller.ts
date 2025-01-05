@@ -81,7 +81,9 @@ export class UserController {
         req.params.username
       );
       response.profilePicture = `${baseUrl}/${response.profilePicture}`;
-      res.status(200).json(response);
+      res.status(200).json({
+        data: response
+      });
     } catch (error) {
       next(error);
     }
