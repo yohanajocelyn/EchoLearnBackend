@@ -28,3 +28,4 @@ protectedRouter.get('/api/user/:username', UserController.getUserByUsername)
 protectedRouter.get("/api/variants/attempt/:variantId(\\d+)", VariantController.getVariantById)
 protectedRouter.get('/api/variants/:songId(\\d+)/:type', VariantController.getVariantBySongAndType)
 
+protectedRouter.put("/api/user/update/:userId", UserController.updateUser)

@@ -10,6 +10,7 @@ import {
   LeaderboardResponse,
   UserResponse,
   toLeaderboardResponse,
+  UpdateUserRequest,
 } from "../models/user-model";
 import { UserValidation } from "../validations/user-validation";
 import { Validation } from "../validations/validation";
@@ -137,4 +138,30 @@ export class UserService {
     });
     return users.map((user) => toLeaderboardResponse(user));
   } 
+
+  static async updateUser(user : User, req: UpdateUserRequest): Promise<string> {
+      const findUser = await prismaClient.user.findUnique({
+        where:{
+          id: user.id
+        }
+      })
+      let currPhoto= null
+      if(req.profilePicture == ""){
+        currPhoto = findUser?.profilePicture
+      }else {
+        currPhoto = req.profilePicture
+      }
+      const updateuser = await prismaClient.user.update({
+          where: {
+           id: user.id
+          },
+          data: {
+            email: req.email,
+            username: req.password,
+            profilePicture : `public/images/${currPhoto}.jpg`
+            
+          }
+      })
+      return "success"
+  }
 }

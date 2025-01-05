@@ -61,3 +61,11 @@ export function toGetUserResponse(user: User): GetUserResponse {
   };
 
 }
+
+export interface UpdateUserRequest{
+  id: number,
+  username: string,
+  email: string,
+  profilePicture: string,
+  password: string
+}

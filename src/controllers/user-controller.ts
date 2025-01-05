@@ -6,6 +6,7 @@ import {
   RegisterUserRequest,
   UserResponse,
   LeaderboardResponse,
+  UpdateUserRequest,
 } from "../models/user-model";
 import { UserService } from "../services/user-service";
 import { UserRequest } from "../types/user-request";
@@ -68,12 +69,16 @@ export class UserController {
     }
   }
 
-  static async getUserByUsername(req: UserRequest, res: Response, next: NextFunction) {
-
+  static async getUserByUsername(
+    req: UserRequest,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const baseUrl = `${req.protocol}://${req.get("host")}`;
-      const response: GetUserResponse = await UserService.getUserById(req.user!,
-       req.params.username
+      const response: GetUserResponse = await UserService.getUserById(
+        req.user!,
+        req.params.username
       );
       response.profilePicture = `${baseUrl}/${response.profilePicture}`;
       res.status(200).json(response);
@@ -101,4 +106,19 @@ export class UserController {
       next(error);
     }
   }
-}
+
+  static async updateUser(req: UserRequest, res: Response, next: NextFunction) {
+    try {
+      const request = req.body as UpdateUserRequest;
+      request.id = Number(req.params.userId);
+      const response = await UserService.updateUser(req.user!, request);
+
+      res.status(201).json({
+        data: response,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  }
+
