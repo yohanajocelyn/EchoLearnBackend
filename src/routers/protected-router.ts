@@ -5,6 +5,7 @@ import { SpeakingVariantController } from "../controllers/speaking-variant-contr
 import { AttemptController } from "../controllers/attempt-controller"
 import { SongController } from "../controllers/song-controller"
 import { VariantController } from "../controllers/variant-controller"
+import { NoteController } from "../controllers/note-controller"
 
 export const protectedRouter = express.Router()
 protectedRouter.use(userMiddleware)
@@ -28,3 +29,9 @@ protectedRouter.get('/api/user/:username', UserController.getUserByUsername)
 protectedRouter.get("/api/variants/attempt/:variantId(\\d+)", VariantController.getVariantById)
 protectedRouter.get('/api/variants/:songId(\\d+)/:type', VariantController.getVariantBySongAndType)
 
+//Note routes
+protectedRouter.post("/api/note", NoteController.createNote)
+protectedRouter.get("/api/notes", NoteController.getNotes)
+protectedRouter.get("/api/note/:noteId(\\d+)", NoteController.getNote)
+protectedRouter.delete("/api/note/:noteId(\\d+)", NoteController.deleteNote)
+protectedRouter.put("/api/note/:noteId(\\d+)", NoteController.updateNote)
