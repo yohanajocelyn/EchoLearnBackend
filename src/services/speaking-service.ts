@@ -23,14 +23,14 @@ export class speakingService {
       throw new ResponseError(400, "Variant with id ${req.id} not found");
     }
     let isCorrect = false;
-    let scoreAttempt = 0;
+   
 
     // Check if the answer is correct
     const arrReqAnswer: string[] = createReq.answer.split(" ");
     const arrCheckAnswer: string[] = checkAnswer.answer.split(" ");
     let countCorrect = 0;
     for (let i = 0; i < arrReqAnswer.length; i++) {
-      if (arrReqAnswer[i] === arrCheckAnswer[i]) {
+      if (arrReqAnswer[i].toLowerCase() === arrCheckAnswer[i].toLowerCase()) {
         countCorrect++;
       }
     }
@@ -38,26 +38,25 @@ export class speakingService {
     const finalScore = (countCorrect / arrCheckAnswer.length)* 100;
     if (countCorrect === arrCheckAnswer.length) {
       isCorrect = true;
-      const updateTotalScore = await prismaClient.user.update({
-        where: {
-          id: user.id,
-        },
-        data: {
-          totalScore: finalScore,
-        },
-      });
-      scoreAttempt = 10;
+      
     } else {
       isCorrect = false;
-      scoreAttempt = 0;
     }
+    const updateTotalScore = await prismaClient.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        totalScore: user.totalScore + finalScore,
+      },
+    });
     const createAttempt = await prismaClient.attempt.create({
       data: {
         userId: user.id,
         variantId: req.id,
         correctAnswer: checkAnswer.answer,
         attemptedAnswer: req.answer,
-        score: scoreAttempt,
+        score: finalScore,
         attemptedAt: new Date(),
         isComplete: isCorrect,
       },

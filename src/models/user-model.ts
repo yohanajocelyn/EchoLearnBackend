@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { Attempt, User } from "@prisma/client";
 
 export interface RegisterUserRequest {
   email: string;
@@ -50,14 +50,24 @@ export interface LoginUserRequest {
   password: string;
 }
 
-export function toGetUserResponse(user: User): GetUserResponse {
+export function toGetUserResponse(user: (User & {attempts: Attempt[]})): GetUserResponse {
+
+  const totalScore = user.attempts.reduce((acc, attempt) => acc + attempt.score, 0);
+
   return {
     id: user.id,
     username: user.username,
     email: user.email,
     profilePicture: user.profilePicture ?? "",
     token: user.token ?? "",
-    totalScore: user.totalScore,
+    totalScore: totalScore,
   };
+}
 
+export interface UpdateUserRequest{
+  id: number,
+  username: string,
+  email: string,
+  profilePicture: string,
+  password: string
 }

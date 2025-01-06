@@ -12,14 +12,11 @@ protectedRouter.use(userMiddleware)
 
 protectedRouter.delete("/api/user/logout", UserController.logout)
 
-
 protectedRouter.post("/api/user/speaking/:variantId(\\d+)", SpeakingVariantController.checkAnswer)
 protectedRouter.post("/api/attempt", AttemptController.createAttempt)
 protectedRouter.get("/api/attempt/:attemptId", AttemptController.getAttempt)
 protectedRouter.get("/api/attempts", AttemptController.getAttempts)
 protectedRouter.get("/api/attempts-detail", AttemptController.getAttemptDetail)
-
-
 
 protectedRouter.get("/api/songs/search/:keyword", SongController.searchSong)
 
@@ -35,3 +32,7 @@ protectedRouter.get("/api/notes/:username", NoteController.getNotes)
 protectedRouter.get("/api/note/:noteId(\\d+)/:username", NoteController.getNote)
 protectedRouter.delete("/api/note/:noteId(\\d+)/:username", NoteController.deleteNote)
 protectedRouter.put("/api/note/:noteId(\\d+)/:username", NoteController.updateNote)
+=======
+//Attempt routes
+protectedRouter.put("/api/attempt/:attemptId(\\d+)", AttemptController.updateAttempt)
+protectedRouter.put("/api/user/update/:userId", UserController.updateUser)
