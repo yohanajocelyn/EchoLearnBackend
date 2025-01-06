@@ -32,7 +32,6 @@ protectedRouter.get("/api/notes/:username", NoteController.getNotes)
 protectedRouter.get("/api/note/:noteId(\\d+)/:username", NoteController.getNote)
 protectedRouter.delete("/api/note/:noteId(\\d+)/:username", NoteController.deleteNote)
 protectedRouter.put("/api/note/:noteId(\\d+)/:username", NoteController.updateNote)
-=======
 //Attempt routes
 protectedRouter.put("/api/attempt/:attemptId(\\d+)", AttemptController.updateAttempt)
 protectedRouter.put("/api/user/update/:userId", UserController.updateUser)
