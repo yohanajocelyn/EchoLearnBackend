@@ -118,9 +118,14 @@ export class SongController {
       }
   
       const response = await SongService.searchSong(req.user!!,query);
-      
+      const baseUrl = `${req.protocol}://${req.get("host")}`;
+      const updatedResponse = response.map((song) => ({
+        ...song,
+        image: `${baseUrl}/${song.image}`,
+        fileName: `${baseUrl}/${song.fileName}`,
+      }));
       res.status(200).json({
-        data: response,
+        data: updatedResponse,
         "count" : query
       });
     
