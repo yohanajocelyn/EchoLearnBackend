@@ -11,14 +11,11 @@ protectedRouter.use(userMiddleware)
 
 protectedRouter.delete("/api/user/logout", UserController.logout)
 
-
 protectedRouter.post("/api/user/speaking/:variantId(\\d+)", SpeakingVariantController.checkAnswer)
 protectedRouter.post("/api/attempt", AttemptController.createAttempt)
 protectedRouter.get("/api/attempt/:attemptId", AttemptController.getAttempt)
 protectedRouter.get("/api/attempts", AttemptController.getAttempts)
 protectedRouter.get("/api/attempts-detail", AttemptController.getAttemptDetail)
-
-
 
 protectedRouter.get("/api/songs/search/:keyword", SongController.searchSong)
 
